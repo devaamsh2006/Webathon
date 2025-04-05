@@ -7,10 +7,12 @@ EventApp.use(exp.json())
 EventApp.post('/register',expressAsyncHandler(async(req,res)=>{
     try{
         const credDetails=req.body;
-        // console.log(credDetails)
         const doc=new EventSchema(credDetails);
         const dbresult=await doc.save();
-        res.send({message:'event successfully registered',payLoad:dbresult});
+        const event_id=dbresult._id;
+        const documen=new EventDetails({event_id:event_id});
+        const result=await documen.save();
+        res.send({message:'event successfully registered',payLoad:[dbresult,result]});
     }catch(err){
         res.send({message:'error occurred',payLoad:err.message});
     }

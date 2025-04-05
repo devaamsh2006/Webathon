@@ -17,7 +17,9 @@ userApp.post('/user',expressAsyncHandler(async (req,res)=>{
     {
         let newDoc=new UserModel(newUSer)
         let savedDoc=await newDoc.save()
-        res.status(201).send({message:"new user",payload:savedDoc})
+        const user_id=savedDoc._id;
+        const newRes=await UserDetailsModel({user_id:user_id})
+        res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
     }
     else
     {
