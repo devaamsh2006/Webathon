@@ -5,16 +5,16 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const path = require('path');
 const EventApp = require('./API/EventApi');
+const UserApp = require('./apis/userapi');
 
 // Selecting port
 const port = process.env.PORT || 5000;
-
-
 // Serving static files from the client
 app.use(exp.static(path.join(__dirname, '../client/dist')));
 
 // Selecting API routes (uncomment if needed)
 app.use('/events',EventApp);
+app.use('/users',UserApp);
 
 // Connecting to the database
 mongoose.connect(process.env.DBURL)
