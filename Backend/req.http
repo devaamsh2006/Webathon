@@ -32,4 +32,15 @@ Content-Type: application/json
 get http://localhost:4000/events/events
 
 ###
-get http://localhost:4000/events/event/67f12b5c8ecef4407d4c87d8
+get http://localhost:4000/events/event/67f132d75a9ec00d0cfdaa90
+###
+post http://localhost:4000/users/userdetails
+Content-Type: application/json
+
+{
+  "user_id":"67f132cb5a9ec00d0cfdaa8d",
+  "event_id":"67f132d75a9ec00d0cfdaa90"
+}
+
+###
+get http://localhost:4000/events/participants/67f132d75a9ec00d0cfdaa90

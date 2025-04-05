@@ -46,10 +46,10 @@ EventApp.get('/event/:_id', expressAsyncHandler(async (req, res) => {
   }));
   
 
-EventApp.post('/participants',expressAsyncHandler(async(req,res)=>{
+EventApp.get('/participants/:_id',expressAsyncHandler(async(req,res)=>{
     try{
-        const details = req.body;
-        const dbRes=await EventDetails.findOne(details._id);
+        const details = req.params._id;
+        const dbRes=await EventDetails.findOne({event_id:details});
         res.send({message:'participants found',payLoad:dbRes});
     }catch(err){
         res.send({message:'error occurred',payLoad:err.message});

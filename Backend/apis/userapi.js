@@ -30,15 +30,15 @@ userApp.post('/user',expressAsyncHandler(async (req,res)=>{
 //userdetails
 userApp.post('/userdetails',expressAsyncHandler(async (req,res)=>{
     try{
-        const { userId , EventId }=req.body;
-        const dbRes = await UserModel.findOneAndUpdate(
-            { user_id: userId },              
-            { $push: { event_id: EventId } }, 
+        const { user_id , event_id }=req.body;
+        const dbRes = await UserDetailsModel.findOneAndUpdate(
+            { user_id: user_id },              
+            { $push: { event_id: event_id } }, 
             { new: true, upsert: true }
         );
         const resDb=await EventDetailsModel.findOneAndUpdate(
-            {event_id: eventId},
-            {$push:{user_id:userId}},
+            {event_id: event_id},
+            {$push:{user_id:user_id}},
             {new:true, upsert:true}
         )
         res.send({message:'details added',payLoad:[dbRes,resDb]});
