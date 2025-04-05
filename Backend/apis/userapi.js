@@ -3,6 +3,7 @@ const userApp=exp.Router()
 const UserModel=require('../schemas/user')
 const UserDetailsModel=require('../schemas/userdetail')
 const EventModel=require('../schemas/event')
+const EventDetailsModel=require('../schemas/eventdetails');
 const expressAsyncHandler=require('express-async-handler')
 
 require('dotenv').config()
@@ -26,7 +27,22 @@ userApp.post('/user',expressAsyncHandler(async (req,res)=>{
 
 //userdetails
 userApp.post('/userdetails',expressAsyncHandler(async (req,res)=>{
-    
+    try{
+        const { userId , EventId }=req.body;
+        const dbRes = await UserModel.findOneAndUpdate(
+            { user_id: userId },              
+            { $push: { event_id: EventId } }, 
+            { new: true, upsert: true }
+        );
+        const resDb=await EventDetailsModel.findOneAndUpdate(
+            {event_id: eventId},
+            {$push:{user_id:userId}},
+            {new:true, upsert:true}
+        )
+        res.send({message:'details added',payLoad:[dbRes,resDb]});
+    }catch(err){
+        res.send({message:'error ocurred',payLoad:err.message});
+    }
 }))
 
 //usereventdetails
