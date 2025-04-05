@@ -7,6 +7,7 @@ import Volunteer from './components/pages/Volunteer';
 import Eventbyid from './components/pages/Eventbyid';
 
 import Signup from './components/pages/Signup'
+import ClubEvents from './components/pages/ClubEvents';
 const browserRouter = createBrowserRouter([
   {
     path: '',
@@ -35,6 +36,10 @@ const browserRouter = createBrowserRouter([
       {
         path:"signup-details",
         element:<Signup />
+      },
+      {
+        path:'clubevents',
+        element:<ClubEvents />
       }
     ]
   }

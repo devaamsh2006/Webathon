@@ -19,7 +19,7 @@ userApp.post('/login',expressAsyncHandler(async (req,res)=>{
         // const user_id=savedDoc._id;
         // const newRes=await UserDetailsModel({user_id:user_id})
         // res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
-        res.status(200).send({message:"user exists",payload:datainDb})
+        res.status(200).send({message:"user exists",payload:datainDb,userType:"user"})
     }
     else
     {

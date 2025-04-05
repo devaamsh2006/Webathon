@@ -20,7 +20,7 @@ clubApp.post('/login',expressAsyncHandler(async (req,res)=>{
     const datainDb=await clubSchema.findOne({email:newUSer.email});
     if(datainDb!==null)
         {
-            res.status(200).send({message:"user exists",payload:datainDb})
+            res.status(200).send({message:"user exists",payload:datainDb,userType:"club"})
         }
         else
         {
