@@ -9,15 +9,13 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 
 // Importing API Apps (uncomment if these files exist)
-// const userApp = require('./API/UserApi');
-// const rentorApp = require('./API/RentorApi');
+
 
 // Serving static files from the client
 app.use(exp.static(path.join(__dirname, '../client/dist')));
 
 // Selecting API routes (uncomment if needed)
-// app.use('/user', userApp);
-// app.use('/rentor', rentorApp);
+
 
 // Connecting to the database
 mongoose.connect(process.env.DBURL)
