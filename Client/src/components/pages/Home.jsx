@@ -9,11 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 import { useUser } from '@clerk/clerk-react';
->>>>>>> c70a3d9d00ef3d6634b03bd3bf4a426946de95d9
 import axios from 'axios';
 import { userDetails } from '../Context/UserAuthentication';
 import {useNavigate} from 'react-router-dom';
@@ -22,9 +18,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 const Home= () => {
-<<<<<<< HEAD
-  const navigate = useNavigate();
-=======
   const {isSignedIn,user,isLoaded}=useUser();
   const navigate = useNavigate()
     const {currentUser,setCurrentUser}=useContext(userDetails);
@@ -48,10 +41,10 @@ const Home= () => {
       }else{
         await setCurrentUser({
           ...currentUser,
-          name:res.data?.payLoad.fullName,
-          email:res.data?.payLoad.username,
+          name:res.data?.payload.name,
+          email:res.data?.payload.email,
           userType:res.data?.userType,
-          userId:res.data?.payLoad.userId||res.data?.payLoad.operatorId||res.data?.payLoad.driverId,
+          userId:res.data?.payload.userId,
         });
       }
       return found;
@@ -60,9 +53,8 @@ const Home= () => {
       async function fetchUserData(){
       setCurrentUser({
         ...currentUser,
-        fullName:user?.fullName,
-        email:user?.emailAddresses[0].emailAddress,
-        imageUrl:user?.imageUrl,
+        name:user?.fullName,
+        email:user?.emailAddresses[0].emailAddress
       })
       if(isSignedIn===true){
         let found= await handleUserLogin();
@@ -75,7 +67,6 @@ const Home= () => {
       fetchUserData();
       console.log(currentUser);
     },[isLoaded,currentUser.phoneno]);
->>>>>>> c70a3d9d00ef3d6634b03bd3bf4a426946de95d9
   const [articles,setArticles]=useState([])
   // function viewdetails(event)
   // {

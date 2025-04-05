@@ -32,24 +32,24 @@ export default function Signup() {
       const payload = userType === 'student'
         ? {
             name: formData.name,
-            email: formData.email,
+            email: user?.emailAddresses[0].emailAddress,
             rollno: formData.rollno,
           }
         : {
             name: formData.name,
-            email: formData.email,
+            email: user?.emailAddresses[0].emailAddress,
             coordinator: formData.coordinator,
           };
 
       const res = await axios.post(`http://localhost:4000${endpoint}`, payload);
-
-      if (res.data.success) {
-        const payLoad = res.data.payLoad;
-
+      console.log(res);
+      if (res.data.message==='new user') {
+        const payLoad = res.data.payload;
+        console.log(payLoad)
         await setCurrentUser({
           name: payLoad.name || payLoad.fullName,
           email: payLoad.email,
-          userId: payLoad.userId || payLoad.operatorId || payLoad.driverId,
+          userId: payLoad._id,
           userType,
         });
 

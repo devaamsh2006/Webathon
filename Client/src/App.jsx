@@ -31,6 +31,10 @@ const browserRouter = createBrowserRouter([
       {
         path:"volunteer/:id",
         element:<Volunteer />
+      },
+      {
+        path:"signup-details",
+        element:<Signup />
       }
     ]
   }
