@@ -1,5 +1,5 @@
 // The exported code uses Tailwind CSS. Install Tailwind CSS in your dev environment to ensure all styles work.
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,11 +9,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import axios from 'axios';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 const Home= () => {
+  const [articles,setArticles]=useState([])
+useEffect(()=>{
+  const fetchEvents = async () => {
+    try {
+      let res = await axios.get('http://localhost:4000/events/events');
+      res=res.data
+      if(res.message==='Upcoming events fetched')
+      {
+        console.log(res.payLoad)
+        setArticles(res.payLoad)
+      } // Now you can access message, payload, etc.
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
+  };
+
+  fetchEvents();
+},[])
 const [searchQuery, setSearchQuery] = useState('');
 const categories = [
 {
@@ -258,19 +277,19 @@ breakpoints={{
 className="pb-12"
 autoplay={{ delay: 5000, disableOnInteraction: false }}
 >
-{trendingEvents.map((event) => (
-<SwiperSlide key={event.id}>
+{articles.map((event) => (
+<SwiperSlide key={event.eventname}>
 <Card className="h-full cursor-pointer hover:shadow-lg transition-shadow">
 <div className="relative h-48 overflow-hidden rounded-t-lg">
 <img
-src={event.imageUrl}
-alt={event.title}
+src={event.poster}
+alt={event.eventname}
 className="w-full h-full object-cover object-top"
 />
 <div className="absolute top-3 right-3">
 <Badge className={`
-${event.status === 'Open' ? 'bg-green-500' : 'bg-amber-500'}
-hover:${event.status === 'Open' ? 'bg-green-600' : 'bg-amber-600'}
+${event.date > Date.now ? 'bg-green-500' : 'bg-amber-500'}
+hover:${event.date > Date.now ? 'bg-green-600' : 'bg-amber-600'}
 `}>
 {event.status}
 </Badge>
@@ -278,30 +297,31 @@ hover:${event.status === 'Open' ? 'bg-green-600' : 'bg-amber-600'}
 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
 <div className="text-white text-sm font-medium">
 <i className="far fa-calendar-alt mr-2"></i>
-{event.date} • {event.time}
+{/* {event.date_time} • {event.time} */}
+{event.date_time}
 </div>
 </div>
 </div>
 <CardHeader className="pb-2">
-<Badge className="mb-2">{event.category}</Badge>
-<CardTitle className="text-lg">{event.title}</CardTitle>
+<Badge className="mb-2">{event.eventType}</Badge>
+<CardTitle className="text-lg">{event.eventname}</CardTitle>
 <CardDescription className="line-clamp-2">{event.description}</CardDescription>
 </CardHeader>
 <CardContent className="pb-2">
 <div className="flex items-center text-sm text-gray-500">
 <i className="fas fa-map-marker-alt mr-2"></i>
-<span>{event.location}</span>
+<span>{event.venue}</span>
 </div>
 </CardContent>
 <CardFooter className="pt-0 flex justify-between">
 <div className="flex space-x-4 text-sm text-gray-500">
 <div className="flex items-center">
 <i className="far fa-heart mr-1"></i>
-<span>{event.interested}</span>
+{/* <span>{event.interested}</span> */}
 </div>
 <div className="flex items-center">
 <i className="far fa-calendar-check mr-1"></i>
-<span>{event.going}</span>
+{/* <span>{event.going}</span> */}
 </div>
 </div>
 <Button size="sm" className="!rounded-button whitespace-nowrap cursor-pointer">Register</Button>
@@ -499,6 +519,7 @@ event.date === 'Today' ? 'border-indigo-200 bg-indigo-50' : 'border-gray-200 bg-
 const day = i + 5;
 const isToday = day === 5; // Assuming today is the 5th
 const hasEvent = [5, 8, 15, 20, 25].includes(day);
+
 return (
 <div
 key={i + 4}
