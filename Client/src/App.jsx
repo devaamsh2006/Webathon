@@ -9,6 +9,7 @@ import Login from './components/pages/Login'
 import Events from './components/pages/Events'
 import Volunteer from './components/pages/Volunteer'
 import Event from './components/pages/Events'
+import Signup from './components/pages/Signup'
 const browserRouter=createBrowserRouter([
   {
     path:'',
@@ -29,6 +30,10 @@ const browserRouter=createBrowserRouter([
       {
         path:"volunteer/:id",
         element:<Volunteer />
+      },
+      {
+        path:'signup-details',
+        element:<Signup />
       }
     ]
   }

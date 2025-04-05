@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const EventApp = require('./API/EventApi');
 const UserApp = require('./apis/userapi');
-const cors=require('cors')
+const cors=require('cors');
+const clubApp = require('./API/ClubApi');
 
 // Selecting port
 const port = process.env.PORT || 5000;
@@ -17,6 +18,7 @@ app.use(cors())
 // Selecting API routes (uncomment if needed)
 app.use('/events',EventApp);
 app.use('/users',UserApp);
+app.use('/clubs',clubApp);
 
 // Connecting to the database
 mongoose.connect(process.env.DBURL)

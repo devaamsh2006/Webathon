@@ -1,5 +1,5 @@
 // The exported code uses Tailwind CSS. Install Tailwind CSS in your dev environment to ensure all styles work.
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect,useContext} from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,12 +9,65 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { useUser } from '@clerk/clerk-react';
 import axios from 'axios';
+import { userDetails } from '../Context/UserAuthentication';
+import {useNavigate} from 'react-router-dom';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 const Home= () => {
+  const {isSignedIn,user,isLoaded}=useUser();
+  const navigate = useNavigate()
+    const {currentUser,setCurrentUser}=useContext(userDetails);
+    async function handleUserLogin(){
+      const differentUsers=['users','clubs'];
+      let found=0;
+      let res={};
+      for(let User of differentUsers){
+        res=await axios.post(`http://localhost:4000/${User}/login`,{email:user?.emailAddresses[0].emailAddress});
+        console.log("res:",res) 
+        if(res.data.message==='user exists'){
+          found=1;
+          break;
+        }
+      }
+      if(found===0){
+        await setCurrentUser({
+          ...currentUser,
+          name: user?.fullName
+        });
+      }else{
+        await setCurrentUser({
+          ...currentUser,
+          name:res.data?.payLoad.fullName,
+          email:res.data?.payLoad.username,
+          userType:res.data?.userType,
+          userId:res.data?.payLoad.userId||res.data?.payLoad.operatorId||res.data?.payLoad.driverId,
+        });
+      }
+      return found;
+    }
+    useEffect(()=>{
+      async function fetchUserData(){
+      setCurrentUser({
+        ...currentUser,
+        fullName:user?.fullName,
+        email:user?.emailAddresses[0].emailAddress,
+        imageUrl:user?.imageUrl,
+      })
+      if(isSignedIn===true){
+        let found= await handleUserLogin();
+        if(found==0) {
+          navigate('/signup-details')
+          navigate(0)
+        }
+      }
+      }
+      fetchUserData();
+      console.log(currentUser);
+    },[isLoaded,currentUser.phoneno]);
   const [articles,setArticles]=useState([])
 useEffect(()=>{
   const fetchEvents = async () => {
