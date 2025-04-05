@@ -31,12 +31,11 @@ const eventSchema = new mongoose.Schema({
     },
     mode: {
         type: String,
-        enum: ['online', 'offline'],
         required: true
     },
     payment: {
         type: String,
-        enum: ['free', 'paid'],
+        // enum: ['free', 'paid'],
         required: true
     },
     eventType: {

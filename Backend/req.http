@@ -1,0 +1,46 @@
+### create author
+POST http://localhost:4000/users/user
+Content-Type: application/json
+
+{
+  "name": "aakruthi",
+  "rollno": "6622",
+  "branch": "AIML",
+  "email": "aakruthi@gmail.com",
+  "clubs": []
+}
+
+###
+post http://localhost:4000/events/register
+Content-Type: application/json
+
+{
+  "noOfSeats": 100,
+  "eventname": "AI & Machine Learning Workshop",
+  "description": "A hands-on workshop exploring ML models.",
+  "poster": "https://example.com/posters/ml-workshop.png",
+  "club": "Tech Club",
+  "date_time": "2025-06-15T10:00:00Z",
+  "venue": "Auditorium A",
+  "mode": "offline",
+  "payment": "free",
+  "eventType": "workshop",
+  "coordinator": "Dr. Meena Rao"
+}
+
+###
+get http://localhost:4000/events/events
+
+###
+get http://localhost:4000/events/event/67f132d75a9ec00d0cfdaa90
+###
+post http://localhost:4000/users/userdetails
+Content-Type: application/json
+
+{
+  "user_id":"67f132cb5a9ec00d0cfdaa8d",
+  "event_id":"67f132d75a9ec00d0cfdaa90"
+}
+
+###
+get http://localhost:4000/events/participants/67f132d75a9ec00d0cfdaa90
