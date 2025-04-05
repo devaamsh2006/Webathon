@@ -26,7 +26,7 @@ userApp.post('/user',expressAsyncHandler(async (req,res)=>{
 
 //userdetails
 userApp.post('/userdetails',expressAsyncHandler(async (req,res)=>{
-
+    
 }))
 
 //usereventdetails
