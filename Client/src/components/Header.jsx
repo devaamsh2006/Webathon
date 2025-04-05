@@ -33,7 +33,7 @@ const Header = () => {
       currentUser.userType==='user'?
       <NavLink to="events" className='p-3 rounded-xl hover:bg-slate-300'>Events</NavLink>
       :
-      <NavLink to="events" className='p-3 rounded-xl hover:bg-slate-300'>Events</NavLink>
+      <NavLink to="clubevents" className='p-3 rounded-xl hover:bg-slate-300'>Events</NavLink>
     }
     
     <NavLink to="volunteer/12345" className='p-3 rounded-xl hover:bg-slate-300'>Volunteer</NavLink>
