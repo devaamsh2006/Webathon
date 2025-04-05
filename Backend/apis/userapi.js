@@ -88,6 +88,18 @@ userApp.post('/userdetails',expressAsyncHandler(async (req,res)=>{
     }
 }))
 
+userApp.get('/eventdetails/:_id',expressAsyncHandler(async(req,res)=>{
+    try{
+        const user_id=req.params._id;
+        const dbRes=await UserDetailsModel.findOne({user_id:user_id});
+        const eventsList=dbRes.event_id;
+        const result=await EventModel.find({_id:{$in:eventsList}});
+        res.send({message:"past events",payload:result});
+    }catch(err){
+        res.send({message:'error occurred',payload:err.message});
+    }
+}))
+
 //usereventdetails
 userApp.get('/userdetails/:_id', expressAsyncHandler(async (req, res) => {
         try {

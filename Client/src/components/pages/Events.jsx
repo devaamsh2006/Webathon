@@ -1,82 +1,100 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Calendar as CalendarIcon, Clock, MapPin, CheckCircle, History } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
+import { userDetails } from '../Context/UserAuthentication';
 
-const UpcomingEvents = [
-  {
-    id: 1,
-    title: 'Annual Tech Summit 2025',
-    type: 'Technology',
-    date: '2025-04-15',
-    time: '10:00 AM - 4:00 PM',
-    location: 'Main Campus Auditorium',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1000',
-    status: 'Confirmed',
-    attended: false,
-  },
-  {
-    id: 2,
-    title: 'Spring Cultural Festival',
-    type: 'Cultural',
-    date: '2025-04-20',
-    time: '12:00 PM - 8:00 PM',
-    location: 'University Commons',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=1000',
-    status: 'Confirmed',
-    attended: false,
-  },
-  {
-    id: 3,
-    title: 'AI Workshop: Machine Learning Basics',
-    type: 'Academic',
-    date: '2025-04-12',
-    time: '1:00 PM - 5:00 PM',
-    location: 'Computer Science Building',
-    image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=1000',
-    status: 'Pending Confirmation',
-    attended: false,
-  },
-];
 
-const AttendedEvents = [
-  {
-    id: 4,
-    title: 'Web Development Bootcamp',
-    type: 'Technology',
-    date: '2025-03-15',
-    time: '9:00 AM - 5:00 PM',
-    location: 'Virtual Event',
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1000',
-    status: 'Confirmed',
-    attended: true,
-  },
-  {
-    id: 5,
-    title: 'International Food Festival',
-    type: 'Cultural',
-    date: '2025-03-01',
-    time: '11:00 AM - 7:00 PM',
-    location: 'Student Center',
-    image: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=1000',
-    status: 'Confirmed',
-    attended: true,
-  },
-  {
-    id: 6,
-    title: 'Research Symposium 2025',
-    type: 'Academic',
-    date: '2025-02-28',
-    time: '2:00 PM - 6:00 PM',
-    location: 'Science Complex',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000',
-    status: 'Confirmed',
-    attended: true,
-  },
-];
+
+
+//  [
+//   {
+//     id: 1,
+//     title: 'Annual Tech Summit 2025',
+//     type: 'Technology',
+//     date: '2025-04-15',
+//     time: '10:00 AM - 4:00 PM',
+//     location: 'Main Campus Auditorium',
+//     image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Confirmed',
+//     attended: false,
+//   },
+//   {
+//     id: 2,
+//     title: 'Spring Cultural Festival',
+//     type: 'Cultural',
+//     date: '2025-04-20',
+//     time: '12:00 PM - 8:00 PM',
+//     location: 'University Commons',
+//     image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Confirmed',
+//     attended: false,
+//   },
+//   {
+//     id: 3,
+//     title: 'AI Workshop: Machine Learning Basics',
+//     type: 'Academic',
+//     date: '2025-04-12',
+//     time: '1:00 PM - 5:00 PM',
+//     location: 'Computer Science Building',
+//     image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Pending Confirmation',
+//     attended: false,
+//   },
+// ];
+
+// [
+//   {
+//     id: 4,
+//     title: 'Web Development Bootcamp',
+//     type: 'Technology',
+//     date: '2025-03-15',
+//     time: '9:00 AM - 5:00 PM',
+//     location: 'Virtual Event',
+//     image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Confirmed',
+//     attended: true,
+//   },
+//   {
+//     id: 5,
+//     title: 'International Food Festival',
+//     type: 'Cultural',
+//     date: '2025-03-01',
+//     time: '11:00 AM - 7:00 PM',
+//     location: 'Student Center',
+//     image: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Confirmed',
+//     attended: true,
+//   },
+//   {
+//     id: 6,
+//     title: 'Research Symposium 2025',
+//     type: 'Academic',
+//     date: '2025-02-28',
+//     time: '2:00 PM - 6:00 PM',
+//     location: 'Science Complex',
+//     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000',
+//     status: 'Confirmed',
+//     attended: true,
+//   },
+// ];
 
 function Events() {
+  const [UpcomingEvents,setEvents]=useState([]);
+
+  const [AttendedEvents,setAttendedEvents]=useState([]); 
+const {currentUser}=useContext(userDetails);
+  const handleEvents=async(req,res)=>{
+    const result=await axios.get(`http://localhost:4000/events/eventdetails/${currentUser.user_id}`);
+    console.log(res);
+    setEvents(result.data.payload);
+  }
+  
+  useEffect(()=>{
+    handleEvents();
+  },[]);
+  
   const [activeTab, setActiveTab] = useState('registered');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedDate, setSelectedDate] = useState(null);
