@@ -9,13 +9,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 const Home= () => {
+  const navigate = useNavigate();
   const [articles,setArticles]=useState([])
+  // function viewdetails(event)
+  // {
+  //   console.log(event)
+  //   navigate('/eventbyid',state)
+  // }
+  function viewdetails(event) {
+    console.log(event);
+    navigate('/eventbyid', {state:event});
+  }
 useEffect(()=>{
   const fetchEvents = async () => {
     try {
@@ -279,7 +290,7 @@ autoplay={{ delay: 5000, disableOnInteraction: false }}
 >
 {articles.map((event) => (
 <SwiperSlide key={event.eventname}>
-<Card className="h-full cursor-pointer hover:shadow-lg transition-shadow">
+<Card className="h-full hover:shadow-lg transition-shadow">
 <div className="relative h-48 overflow-hidden rounded-t-lg">
 <img
 src={event.poster}
@@ -324,7 +335,12 @@ hover:${event.date > Date.now ? 'bg-green-600' : 'bg-amber-600'}
 {/* <span>{event.going}</span> */}
 </div>
 </div>
-<Button size="sm" className="!rounded-button whitespace-nowrap cursor-pointer">Register</Button>
+<div className="flex items-center justify-between">
+  <Button size="sm" className="rounded-button whitespace-nowrap cursor-pointer bg-slate-400" onClick={()=>viewdetails(event)}>
+    View Details
+  </Button>
+  <Button size="sm" className="rounded-button whitespace-nowrap cursor-pointer bg-slate-400">Register</Button>
+</div>
 </CardFooter>
 </Card>
 </SwiperSlide>
