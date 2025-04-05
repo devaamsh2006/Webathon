@@ -5,11 +5,8 @@ const UserDetailsModel=require('../schemas/userdetail')
 const EventModel=require('../schemas/event')
 const EventDetailsModel=require('../schemas/eventdetails');
 const expressAsyncHandler=require('express-async-handler')
-
 require('dotenv').config()
 userApp.use(exp.json())
-
-//login
 userApp.post('/user',expressAsyncHandler(async (req,res)=>{
     const newUSer=req.body;
     const datainDb=await UserModel.findOne({email:newUSer.email})
@@ -26,6 +23,34 @@ userApp.post('/user',expressAsyncHandler(async (req,res)=>{
         res.status(200).send({message:"user exists",payload:datainDb})
     }
 }))
+
+userApp.put('/clubs', expressAsyncHandler(async (req, res) => {
+    try {
+        const { email, clubname, request } = req.body;
+        const student = await StudentModel.findOne({ email });
+        if (!student) {
+            return res.status(404).send({ message: "Student not found" });
+        }
+        const updatedRequests = student.requests.filter(club => club !== clubname);
+        const updateData = {
+            requests: updatedRequests
+        };
+        if (request === 'accept') {
+            updateData.$addToSet = { clubs: clubname };
+        }
+        const updatedStudent = await StudentModel.findOneAndUpdate(
+            { email },
+            updateData,
+            { new: true }
+        );
+
+        res.send({ message: `Club request ${request}ed`, payLoad: updatedStudent });
+
+    } catch (err) {
+        res.status(500).send({ message: 'Error occurred', payLoad: err.message });
+    }
+}));
+
 
 //userdetails
 userApp.post('/userdetails',expressAsyncHandler(async (req,res)=>{

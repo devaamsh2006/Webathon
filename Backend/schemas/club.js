@@ -17,6 +17,10 @@ const clubSchema = new mongoose.Schema({
     coordinator: {
         type: String, // or an object with name, email, etc. if needed
         required: true
+    },
+    volunteers:{
+        type:[String],
+        default:[]
     }
 });
 

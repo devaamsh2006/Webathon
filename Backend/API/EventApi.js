@@ -4,6 +4,7 @@ const expressAsyncHandler=require('express-async-handler');
 const EventSchema=require('../schemas/event');
 const userApp=require('../schemas/user');
 const EventDetails=require('../schemas/eventdetails');
+const clubDetails=require('../schemas/club');
 EventApp.use(exp.json())
 EventApp.post('/register',expressAsyncHandler(async(req,res)=>{
     try{
@@ -29,7 +30,6 @@ EventApp.get('/events', expressAsyncHandler(async (req, res) => {
     }
 }));
 
-// 
 
 EventApp.get('/event/:_id', expressAsyncHandler(async (req, res) => {
     try {
@@ -44,7 +44,7 @@ EventApp.get('/event/:_id', expressAsyncHandler(async (req, res) => {
     } catch (err) {
       res.status(500).send({ message: 'error occurred', payLoad: err.message });
     }
-  }));
+}));
   
 
 EventApp.get('/participants/:_id',expressAsyncHandler(async(req,res)=>{

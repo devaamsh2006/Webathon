@@ -20,8 +20,13 @@ const studentSchema = new mongoose.Schema({
         unique: true
     },
     clubs: {
-        type: [String], // Array of club names
+        type: [String],
         default: []
+    },
+    requests:{
+        type:[String],
+        required:true,
+        default:[]
     }
 });
 

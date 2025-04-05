@@ -14,11 +14,11 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     poster: {
-        type: String, // URL or file path to image
+        type: String,
         required: false
     },
     club: {
-        type: String, // or use ObjectId if referencing a Club model
+        type: String,
         required: true
     },
     date_time: {
@@ -35,16 +35,19 @@ const eventSchema = new mongoose.Schema({
     },
     payment: {
         type: String,
-        // enum: ['free', 'paid'],
         required: true
     },
     eventType: {
-        type: String, // e.g., 'workshop', 'seminar', 'hackathon'
+        type: String,
         required: true
     },
     coordinator: {
-        type: String, // or an object if you want more detail (name, email, etc.)
+        type: String,
         required: true
+    },
+    volunteer:{
+        type:[String],
+        required:true
     }
 }, { timestamps: true });
 
