@@ -27,6 +27,19 @@ userApp.post('/login',expressAsyncHandler(async (req,res)=>{
     }
 }))
 
+userApp.post('/signup',expressAsyncHandler(async(req,res)=>{
+    try{
+        const newUSer=req.body;
+        let newDoc=new UserModel(newUSer);
+        let savedDoc=await newDoc.save()
+        const user_id=savedDoc._id;
+        const newRes=await UserDetailsModel({user_id:user_id})
+        res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
+    }catch(err){
+        res.send({message:"error occurred",payload:err.message});
+    }
+}))
+
 userApp.put('/clubs', expressAsyncHandler(async (req, res) => {
     try {
         const { email, clubname, request } = req.body;

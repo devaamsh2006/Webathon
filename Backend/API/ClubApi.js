@@ -20,19 +20,23 @@ clubApp.post('/login',expressAsyncHandler(async (req,res)=>{
     const datainDb=await clubSchema.findOne({email:newUSer.email});
     if(datainDb!==null)
         {
-            //console.log("hi")
-            // let newDoc=new UserModel(newUSer);
-            // let savedDoc=await newDoc.save()
-            // console.log(savedDoc)
-            // const user_id=savedDoc._id;
-            // const newRes=await UserDetailsModel({user_id:user_id})
-            // res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
             res.status(200).send({message:"user exists",payload:datainDb})
         }
         else
         {
             res.status(200).send({message:"user not exists",payload:datainDb})
         }
+}))
+
+clubApp.post('/signup',expressAsyncHandler(async(req,res)=>{
+    try{
+        let newUser=req.body;
+        let newDoc=new clubSchema(newUser);
+        let dbres= await newDoc.save();
+        res.send({message:'user created',payload:dbres});
+    }catch(err){
+        res.send({message:'error occurred',payload:err.message});
+    }
 }))
 
 clubApp.put('/sendrequest', expressAsyncHandler(async (req, res) => {
