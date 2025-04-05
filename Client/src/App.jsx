@@ -8,7 +8,7 @@ import Home from './components/pages/Home'
 import Login from './components/pages/Login'
 import Events from './components/pages/Events'
 import Volunteer from './components/pages/Volunteer'
-
+import Event from './components/pages/Events'
 const browserRouter=createBrowserRouter([
   {
     path:'',
@@ -32,7 +32,7 @@ const browserRouter=createBrowserRouter([
       }
     ]
   }
-])
+]);
 
 function App() {
   return <RouterProvider router={browserRouter} />
