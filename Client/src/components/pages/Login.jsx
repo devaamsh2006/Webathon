@@ -3,7 +3,7 @@ import React from 'react'
 
 const Login = () => {
   return (
-    <div>
+    <div className='flex w-full justify-center'>
     <SignIn />
     </div>
   )

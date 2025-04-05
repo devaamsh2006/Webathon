@@ -12,10 +12,12 @@ if (!PUBLISHABLE_KEY) {
 
 const RootLayout = () => {
   return (
-    <div className='p-0 m-0'>
+    <div className='flex flex-col'>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <Header />
+    <div className='mt-12 pt-8'>
     <Outlet />
+    </div>
     <Footer />
     </ClerkProvider>
     </div> 
