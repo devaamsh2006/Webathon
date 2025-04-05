@@ -2,6 +2,7 @@ const exp=require('express');
 const EventApp=exp.Router();
 const expressAsyncHandler=require('express-async-handler');
 const EventSchema=require('../schemas/event');
+const userApp=require('../schemas/user');
 const EventDetails=require('../schemas/eventdetails');
 EventApp.use(exp.json())
 EventApp.post('/register',expressAsyncHandler(async(req,res)=>{
@@ -49,8 +50,10 @@ EventApp.get('/event/:_id', expressAsyncHandler(async (req, res) => {
 EventApp.get('/participants/:_id',expressAsyncHandler(async(req,res)=>{
     try{
         const details = req.params._id;
-        const dbRes=await EventDetails.findOne({event_id:details});
-        res.send({message:'participants found',payLoad:dbRes});
+        const dbRes=await EventDetails.find({event_id:details});
+        const participantsId=dbRes.user_id;
+        const resDb=await userApp.find({_id:{$in:participantsId}});
+        res.send({message:'participants found',payLoad:resDb});
     }catch(err){
         res.send({message:'error occurred',payLoad:err.message});
     }
