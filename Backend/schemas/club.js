@@ -6,9 +6,10 @@ const clubSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    department: {
-        type: String,
-        required: true
+    email:{
+        type:String,
+        required:true,
+        unique:true
     },
     events: {
         type: [String],

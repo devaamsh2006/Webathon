@@ -7,20 +7,36 @@ const EventDetailsModel=require('../schemas/eventdetails');
 const expressAsyncHandler=require('express-async-handler')
 require('dotenv').config()
 userApp.use(exp.json())
-userApp.post('/user',expressAsyncHandler(async (req,res)=>{
+userApp.post('/login',expressAsyncHandler(async (req,res)=>{
     const newUSer=req.body;
     const datainDb=await UserModel.findOne({email:newUSer.email})
-    if(datainDb===null)
+    if(datainDb!==null)
     {
-        let newDoc=new UserModel(newUSer)
+        //console.log("hi")
+        // let newDoc=new UserModel(newUSer);
+        // let savedDoc=await newDoc.save()
+        // console.log(savedDoc)
+        // const user_id=savedDoc._id;
+        // const newRes=await UserDetailsModel({user_id:user_id})
+        // res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
+        res.status(200).send({message:"user exists",payload:datainDb})
+    }
+    else
+    {
+        res.status(200).send({message:"user not exists",payload:datainDb})
+    }
+}))
+
+userApp.post('/signup',expressAsyncHandler(async(req,res)=>{
+    try{
+        const newUSer=req.body;
+        let newDoc=new UserModel(newUSer);
         let savedDoc=await newDoc.save()
         const user_id=savedDoc._id;
         const newRes=await UserDetailsModel({user_id:user_id})
         res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
-    }
-    else
-    {
-        res.status(200).send({message:"user exists",payload:datainDb})
+    }catch(err){
+        res.send({message:"error occurred",payload:err.message});
     }
 }))
 

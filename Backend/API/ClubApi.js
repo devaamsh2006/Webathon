@@ -3,7 +3,7 @@ const clubApp=express.Router();
 const clubSchema=require('../schemas/club');
 const userModel=require('../schemas/user');
 const expressAsyncHandler=require('express-async-handler');
-clubApp.use(exp.json());
+clubApp.use(express.json());
 
 clubApp.get('/volunteers/:_id',expressAsyncHandler(async(req,res)=>{
     try{
@@ -15,20 +15,27 @@ clubApp.get('/volunteers/:_id',expressAsyncHandler(async(req,res)=>{
     }
 }))
 
-clubApp.post('/club',expressAsyncHandler(async (req,res)=>{
+clubApp.post('/login',expressAsyncHandler(async (req,res)=>{
     const newUSer=req.body;
     const datainDb=await clubSchema.findOne({email:newUSer.email});
-    if(datainDb===null)
-    {
-        let newDoc=new clubSchema(newUSer)
-        let savedDoc=await newDoc.save()
-        const user_id=savedDoc._id;
-        const newRes=await UserDetailsModel({user_id:user_id})
-        res.status(201).send({message:"new user",payload:[savedDoc,newRes]});
-    }
-    else
-    {
-        res.status(200).send({message:"user exists",payload:datainDb})
+    if(datainDb!==null)
+        {
+            res.status(200).send({message:"user exists",payload:datainDb})
+        }
+        else
+        {
+            res.status(200).send({message:"user not exists",payload:datainDb})
+        }
+}))
+
+clubApp.post('/signup',expressAsyncHandler(async(req,res)=>{
+    try{
+        let newUser=req.body;
+        let newDoc=new clubSchema(newUser);
+        let dbres= await newDoc.save();
+        res.send({message:'user created',payload:dbres});
+    }catch(err){
+        res.send({message:'error occurred',payload:err.message});
     }
 }))
 

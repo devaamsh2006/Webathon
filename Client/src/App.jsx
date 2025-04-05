@@ -6,6 +6,7 @@ import Events from './components/pages/Events';
 import Volunteer from './components/pages/Volunteer';
 import Eventbyid from './components/pages/Eventbyid';
 
+import Signup from './components/pages/Signup'
 const browserRouter = createBrowserRouter([
   {
     path: '',
@@ -28,8 +29,8 @@ const browserRouter = createBrowserRouter([
         element: <Events />
       },
       {
-        path: 'volunteer/:id',
-        element: <Volunteer />
+        path:"volunteer/:id",
+        element:<Volunteer />
       }
     ]
   }
