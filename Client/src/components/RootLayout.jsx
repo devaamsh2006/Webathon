@@ -15,7 +15,7 @@ const RootLayout = () => {
     <div className='flex flex-col'>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <Header />
-    <div className='mt-12 pt-8'>
+    <div className='mt-8 pt-8'>
     <Outlet />
     </div>
     <Footer />
