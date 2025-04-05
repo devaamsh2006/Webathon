@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap');
+.active{
+    background-color: #cbd5e1;
+}
+
+.heading{
+    font-family: "EB Garamond", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
