@@ -3,10 +3,11 @@ const EventApp=exp.Router();
 const expressAsyncHandler=require('express-async-handler');
 const EventSchema=require('../schemas/event');
 const EventDetails=require('../schemas/eventdetails');
-
+EventApp.use(exp.json())
 EventApp.post('/register',expressAsyncHandler(async(req,res)=>{
     try{
         const credDetails=req.body;
+        // console.log(credDetails)
         const doc=new EventSchema(credDetails);
         const dbresult=await doc.save();
         res.send({message:'event successfully registered',payLoad:dbresult});
@@ -15,7 +16,7 @@ EventApp.post('/register',expressAsyncHandler(async(req,res)=>{
     }
 }))
 
-EventApp.post('/events', expressAsyncHandler(async (req, res) => {
+EventApp.get('/events', expressAsyncHandler(async (req, res) => {
     try {
         const currentDate = new Date();
         const dbRes = await EventSchema.find({date_time: { $gte: currentDate }}).sort({ date_time: 1 });
@@ -25,15 +26,23 @@ EventApp.post('/events', expressAsyncHandler(async (req, res) => {
     }
 }));
 
-EventApp.post('/event',expressAsyncHandler(async(req,res)=>{
-    try{
-        const eventDetails=req.body;
-        const dbRes=EventSchema.findOne(eventDetails._id);
-        res.send({message:'event found',payLoad:dbRes});
-    }catch(err){
-        res.send({message:'error occurred',payLoad:err.message});
+// 
+
+EventApp.get('/event/:_id', expressAsyncHandler(async (req, res) => {
+    try {
+      const eventId = req.params._id;
+      const dbRes = await EventSchema.findOne({ _id: eventId }).lean();
+  
+      if (!dbRes) {
+        return res.status(404).send({ message: 'Event not found' });
+      }
+  
+      res.send({ message: 'Event found', payLoad: dbRes });
+    } catch (err) {
+      res.status(500).send({ message: 'error occurred', payLoad: err.message });
     }
-}))
+  }));
+  
 
 EventApp.post('/participants',expressAsyncHandler(async(req,res)=>{
     try{
