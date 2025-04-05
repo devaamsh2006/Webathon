@@ -4,20 +4,17 @@ const app = exp();
 require('dotenv').config();
 const mongoose = require('mongoose');
 const path = require('path');
+const EventApp = require('./API/EventApi');
 
 // Selecting port
 const port = process.env.PORT || 5000;
 
-// Importing API Apps (uncomment if these files exist)
-// const userApp = require('./API/UserApi');
-// const rentorApp = require('./API/RentorApi');
 
 // Serving static files from the client
 app.use(exp.static(path.join(__dirname, '../client/dist')));
 
 // Selecting API routes (uncomment if needed)
-// app.use('/user', userApp);
-// app.use('/rentor', rentorApp);
+app.use('/events',EventApp);
 
 // Connecting to the database
 mongoose.connect(process.env.DBURL)
