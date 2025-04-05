@@ -3,10 +3,10 @@ POST http://localhost:4000/users/user
 Content-Type: application/json
 
 {
-  "name": "aakruthi",
-  "rollno": "6622",
+  "name": "devaamsh",
+  "rollno": "6619",
   "branch": "AIML",
-  "email": "aakruthi@gmail.com",
+  "email": "deva@gmail.com",
   "clubs": []
 }
 
@@ -38,7 +38,7 @@ post http://localhost:4000/users/userdetails
 Content-Type: application/json
 
 {
-  "user_id":"67f132cb5a9ec00d0cfdaa8d",
+  "user_id":"67f158529a36789d8d9250bc",
   "event_id":"67f132d75a9ec00d0cfdaa90"
 }
 

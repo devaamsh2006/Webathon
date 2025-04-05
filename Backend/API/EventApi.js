@@ -51,7 +51,7 @@ EventApp.get('/participants/:_id',expressAsyncHandler(async(req,res)=>{
     try{
         const details = req.params._id;
         const dbRes=await EventDetails.find({event_id:details});
-        const participantsId=dbRes.user_id;
+        const participantsId=dbRes[0].user_id;
         const resDb=await userApp.find({_id:{$in:participantsId}});
         res.send({message:'participants found',payLoad:resDb});
     }catch(err){
