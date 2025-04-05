@@ -1,0 +1,11 @@
+### create author
+POST http://localhost:4000/users/user
+Content-Type: application/json
+
+{
+  "name": "aakruthi",
+  "rollno": "6622",
+  "branch": "AIML",
+  "email": "aakruthi@gmail.com",
+  "clubs": []
+}
